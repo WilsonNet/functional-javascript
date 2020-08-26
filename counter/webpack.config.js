@@ -4,22 +4,22 @@ module.exports = {
   output: {
     filename: 'bundle.js',
   },
+  mode: 'development',
   watch: true,
   devServer: {
     contentBase: './src',
     compress: true,
     port: 9000,
+    hot: true,
   },
   module: {
     rules: [
       {
         test: /\.js$/,
-        exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['babel-preset-env'],
-            plugins: [require('babel-plugin-transform-object-rest-spread')],
+            presets: ['@babel/env'],
           },
         },
       },

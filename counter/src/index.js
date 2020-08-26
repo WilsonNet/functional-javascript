@@ -16,17 +16,29 @@ function update(msg, model) {
   }
 }
 
-function view(model) {
-  return div(
-    [div({ className: 'mv2' }, `Count: ${model}`)],
-    button(
-      { className: 'pv1 ph2 mr2', onclick: () => console.log('clicked') },
-      '+'
-    ),
-    button({ className: 'pv1 ph2', onclick: () => console.log('clicked') }, '-')
-  );
+function view(dispatch, model) {
+  return div([
+    div({ className: 'mv2' }, `Count: ${model}`),
+    button({ className: 'pv1 ph2 mr2', onclick: () => dispatch('plus') }, '+'),
+    button({ className: 'pv1 ph2', onclick: () => dispatch('minus') }, '-'),
+  ]);
+}
+
+// Impure code below
+
+function app(initModel, update, view, node) {
+  let model = initModel;
+  let currentView = view(dispatch, model);
+  node.appendChild(currentView);
+
+  function dispatch(msg) {
+    model = update(msg, model);
+    const updatedView = view(dispatch, model);
+    node.replaceChild(updatedView, currentView);
+    currentView = updatedView;
+  }
 }
 
 const rootNode = document.getElementById('app');
 
-rootNode.appendChild(view(update('plus', initModel)));
+app(initModel, update, view, rootNode);
