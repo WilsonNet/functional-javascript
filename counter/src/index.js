@@ -3,13 +3,18 @@ import hh from 'hyperscript-helpers';
 
 const { div, button } = hh(h);
 
+const MSG = {
+  ADD: 'ADD',
+  SUBTRACT: 'SUBTRACT',
+};
+
 const initModel = 0;
 
 function update(msg, model) {
   switch (msg) {
-    case 'plus':
+    case MSG.ADD:
       return model + 1;
-    case 'minus':
+    case MSG.SUBTRACT:
       return model - 1;
     default:
       return model;
@@ -19,8 +24,11 @@ function update(msg, model) {
 function view(dispatch, model) {
   return div([
     div({ className: 'mv2' }, `Count: ${model}`),
-    button({ className: 'pv1 ph2 mr2', onclick: () => dispatch('plus') }, '+'),
-    button({ className: 'pv1 ph2', onclick: () => dispatch('minus') }, '-'),
+    button({ className: 'pv1 ph2 mr2', onclick: () => dispatch(MSG.ADD) }, '+'),
+    button(
+      { className: 'pv1 ph2', onclick: () => dispatch(MSG.SUBTRACT) },
+      '-'
+    ),
   ]);
 }
 
