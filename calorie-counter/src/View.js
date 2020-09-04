@@ -7,7 +7,21 @@ import {
   saveMealMsg,
 } from './Update';
 
-const { pre, h1, div, button, form, input, label } = hh(h);
+const {
+  pre,
+  h1,
+  div,
+  button,
+  form,
+  input,
+  label,
+  table,
+  tbody,
+  td,
+  th,
+  tr,
+  thead,
+} = hh(h);
 
 function fieldSet(labelText, inputValue, oninput) {
   return div([
@@ -73,10 +87,30 @@ function formView(dispatch, model) {
   }
 }
 
+function mealRows(meal) {
+  const { description, calories } = meal;
+  return tr({}, td(description), td(calories));
+}
+
+function mealBody(model) {
+  console.log("mealBody -> model", model)
+  const { meals } = model;
+  console.log("mealBody -> meals", meals)
+  return tbody(meals?.map(mealRows));
+}
+
+function mealTable(model) {
+  return table({ className: 'w-100' }, [
+    thead({}, [th('Hahaa'), th('Hahaa')]),
+    mealBody(model),
+  ]);
+}
+
 function view(dispatch, model) {
   return div({ className: 'mw6' }, [
     h1({ className: 'f2 pv2 bb' }, 'Calorie Counter'),
     formView(dispatch, model),
+    mealTable(model),
     pre(JSON.stringify(model, null, 2)),
   ]);
 }
